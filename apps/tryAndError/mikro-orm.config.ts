@@ -4,11 +4,10 @@ import type { MikroOrmModuleOptions } from '@mikro-orm/nestjs';
 import { User } from './src/app/entity';
 import { environment } from './src/app/environments/environment';
 import { CLIHelper } from '@mikro-orm/cli';
-import * as cli from '@mikro-orm/cli';
 import { Migrator } from '@mikro-orm/migrations';
+import { dirname } from 'path';
 
 console.log('To avoid tree shaking...', CLIHelper.getNodeVersion());
-console.log(cli);
 const MIKRO_ORM_CONFIG: MikroOrmModuleOptions<AbstractSqlDriver> = {
   entities: [User],
   name: 'test',
@@ -22,7 +21,7 @@ const MIKRO_ORM_CONFIG: MikroOrmModuleOptions<AbstractSqlDriver> = {
   discovery: { disableDynamicFileAccess: true },
   migrations: {
     tableName: 'migrations',
-    path: './migrations'
+    path: dirname(__dirname) + '/tryAndError/migrations',
   },
   allowGlobalContext: process.env.MIKRO_ORM_ALLOW_GLOBAL_CONTEXT === 'true',
   extensions: [Migrator]
